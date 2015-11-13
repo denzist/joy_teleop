@@ -46,10 +46,14 @@ cruise_control_(false)
   nh_->param("ang_step", ang_step_, ang_step_);
   nh_->param("max_lin_vel", max_lin_vel_, max_lin_vel_);
   nh_->param("max_ang_vel", max_ang_vel_, max_ang_vel_);
+  nh_->param("init_lin_vel", cur_lin_vel_, cur_lin_vel_);
+  nh_->param("init_ang_vel", cur_ang_vel_, cur_ang_vel_);
   nh_->param<std::string>("cmd_topic", cmd_topic_, cmd_topic_);
   vel_pub_ = nh_->advertise<geometry_msgs::Twist>(cmd_topic_, 10);
   vel_stamped_pub_ = nh_->advertise<geometry_msgs::TwistStamped>(cmd_topic_ + "_stamped", 1);
   joy_sub_ = nh_->subscribe<sensor_msgs::Joy>("/joy", 100, &JoyTeleop::callback, this);
+  ROS_INFO_STREAM("init_lin_vel: "<<cur_lin_vel_);
+  ROS_INFO_STREAM("init_ang_vel: "<<cur_ang_vel_);
 }
 
 void JoyTeleop::callback(const sensor_msgs::Joy::ConstPtr& joy)
